@@ -4,17 +4,21 @@ import openpyxl
 
 
 class Games(Enum):
-    战双帕弥什 = ["战双帕弥什", "战双", "Punishing", "Gray Raven", ]
-    鸣潮 = ["鸣潮", ]
-    原神 = ["原神", "Genshin Impact", "genshin", "Genshin", ]
+    原神 = ["原神", "Genshin Impact", "GenshinImpact", "Genshin", ]
+    战双帕弥什 = ["战双帕弥什", "Punishing: Gray Raven", "Punishing", "Gray Raven", ]
     明日方舟 = ["明日方舟", "Arknights", ]
-    碧蓝航线 = ["碧蓝航线", "AzurLane", "Azur", "azur", "AZUR", ]
+    碧蓝航线 = ["碧蓝航线", "Azur Lane", "AzurLane", "Azur", "azur", "AZUR", ]
+    崩坏3 = ["崩坏3", "Honkai", "崩坏学园", "崩壊3", "崩壊", ]
+    尼尔机械纪元 = ["NieR:Automata", "NieR", "尼尔:自动人形",
+              "automata", "Automata", "nier", ]
+    最终幻想7 = ["最终幻想7", "FF7", "FF", ]
+    艾尔登法环 = ["艾尔登法环", "Elden Ring", "ELDENRING", ]
+    少女前线 = ["少女前线", "Girls' Frontline", "Frontline", ]
     无期迷途 = ["无期迷途", ]
-    崩坏3 = ["崩坏3", "Honkai", "崩壊3", "崩壊", ]
-    尼尔机械纪元 = ["Nier", "autometa", "Autometa", "nier", "NieR", ]
-    少女前线 = ["少女前线", "Frontline", "frontline", ]
-    绝区零 = ["绝区零", ]
-    幻塔 = ["幻塔", ]
+    绝区零 = ["绝区零", "Zenless", "Zone Zero", ]
+    幻塔 = ["幻塔", "Tower of Fantasy", ]
+    鸣潮 = ["鸣潮", "鸣潮"]
+    地下城与勇士 = ["地下城与勇士", "DNF", ]
 
 
 class Sheet:
@@ -48,14 +52,16 @@ class Sheet:
         for name in game_name_list:
             wb_new.create_sheet(title=name)
             if existTitleBar:
-                wb_new[name].append([cell.value for cell in tuple(self.sheet)[0]])
+                wb_new[name].append(
+                    [cell.value for cell in tuple(self.sheet)[0]])
 
         # 逐行检测游戏
         for row_cells in (tuple(self.sheet) if not existTitleBar else tuple(self.sheet)[1:]):
             origin_row = self.Row(row=row_cells, row_length=self.row_length)
             for game in tuple(Games):
                 if origin_row.checkGame(tags_col=self.tags_col, gameTags=game.value):
-                    wb_new[game.name].append([cell.value for cell in origin_row.row])  # 将本行内容添加到新的文件中
+                    wb_new[game.name].append(
+                        [cell.value for cell in origin_row.row])  # 将本行内容添加到新的文件中
                     if not remain:
                         origin_row.clear()
         wb_new.save(newXlsxPath)
@@ -92,7 +98,8 @@ class Sheet:
 
 wb = openpyxl.load_workbook(filename="这里填写原文件路径")
 ws = wb["这里填写被操作的sheet名称"]  # 如果只有一个sheet，这里可以改成ws = wb.active
-operate = Sheet(sheet=ws, tags_col=3, row_length=3)  # tags_col是检查tag的所在列；row_length是每行内容的长度
+# tags_col是检查tag的所在列；row_length是每行内容的长度
+operate = Sheet(sheet=ws, tags_col=3, row_length=3)
 operate.removeGameToNewXlsx(newXlsxPath="这里填写要保存的路径", existTitleBar=True,
                             remain=True)  # existTitleBar:是否有标题栏；remain:在复制时是否保留原有的内容
 wb.save("这里填写原文件路径")
