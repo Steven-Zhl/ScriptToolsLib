@@ -15,6 +15,7 @@ class Games(Enum):
     艾尔登法环 = ["艾尔登法环", "Elden Ring", "ELDENRING", ]
     少女前线 = ["少女前线", "Girls' Frontline", "Frontline", ]
     无期迷途 = ["无期迷途", ]
+    碧蓝档案 = ["碧蓝档案", "Blue Archive",  "BLUEARC", ]
     绝区零 = ["绝区零", "Zenless", "Zone Zero", ]
     幻塔 = ["幻塔", "Tower of Fantasy", ]
     鸣潮 = ["鸣潮", "鸣潮"]
