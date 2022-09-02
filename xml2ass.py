@@ -1,9 +1,15 @@
+#!/usr/bin/env python3
+
 # The original author of this program, Danmaku2ASS, is StarBrilliant.
 # This file is released under General Public License version 3.
 # You should have received a copy of General Public License text alongside with
 # this program. If not, you can obtain it at http://gnu.org/copyleft/gpl.html .
 # This program comes with no warranty, the author will not be resopnsible for
 # any damage or problems caused by this program.
+
+# You can obtain a latest copy of Danmaku2ASS at:
+#   https://github.com/m13253/danmaku2ass
+# Please update to the latest version before complaining.
 
 import argparse
 import calendar

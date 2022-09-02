@@ -2,49 +2,59 @@
 
 ## [M3U8_Decrypt.py](/M3U8_Decrypt.py)
 ### 介绍：
-* 使用Python.Crypto库进行文件的AES解密、合并
+* 使用Python.Crypto进行文件的AES解密、合并，可以说完全是为了UC下载视频的问题而实现的。
+* 曾经在UC上下载视频，格式是m3u8，且使用了AES128加密，使得大多数支持ts格式的视频软件也无法正常播放，只能使用UC播放。不过刚刚发现UC自带转mp4功能了，并且似乎即使原网页使用了AES128加密，下载后的文件仍然是不加密的，所以这个脚本就没什么用了....
 ### 环境要求：
-* Python 3及以上版本
+* Python 3
 * Crypto
-* os
-* re
-* Enum
 ### 环境配置：
-* Crypto：pip install crypto
-  * 随后找到解释器路径下的Lib/site-packages/crypto，将其名称修改为Crypto
+* Crypto：
+  * 在Terminal输入 ```pip install crypto```
+  * 随后找到解释器路径下的**Lib/site-packages/crypto**，将其名称修改为Crypto
 ### 用法：
-* pass
+* 不写了，因为甚至找不到一个文件来用这个脚本
 
 ## [批量重命名文件.py](/%E6%89%B9%E9%87%8F%E9%87%8D%E5%91%BD%E5%90%8D%E6%96%87%E4%BB%B6.py)
 ### 介绍：
 * 使用Python从Excel中获取学生信息，并对文件进行批量重命名
 ### 环境要求：
-* Python 3 及以上版本
+* Python 3
 * openpyxl
-* os
-* re
 ### 环境配置：
-* openpyxl： pip install openpyxl
+* openpyxl：
+  * 在Terminal输入 ```pip install openpyxl```
 ### 用法：
 * pass
 
 ## [下载B站视频弹幕.py](/%E4%B8%8B%E8%BD%BDB%E7%AB%99%E8%A7%86%E9%A2%91%E5%BC%B9%E5%B9%95.py)
 ### 介绍：
 * 使用Python获取Bilibili视频的弹幕xml文件，并将其转换为ass文件以便于本地视频播放器使用。
+* 借鉴并使用了[m13253/danmaku2ass: Convert comments from Niconico/AcFun/bilibili to ASS format](https://github.com/m13253/danmaku2ass/)中danmaku2ass.py文件（更名为xml2ass.py）。
 ### 环境要求：
-* 忘了....
+* Python 3
+* BeautifulSoup4
+* xml2ass.py
 ### 环境配置：
-* pass
+* BeautifulSoup4
+  * 在Terminal输入```pip install BeautifulSoup4```
+* xml2ass.py
+  * 下载[xml2ass.py](xml2ass.py)文件或在原作者的项目中下载[danmaku2ass.py](https://github.com/m13253/danmaku2ass/blob/master/danmaku2ass.py)文件并将其改名均可
 ### 用法：
 * pass
 
 ## [下载B站动漫弹幕.py](/%E4%B8%8B%E8%BD%BDB%E7%AB%99%E5%8A%A8%E6%BC%AB%E5%BC%B9%E5%B9%95.py)
 ### 介绍：
 * 使用Python获取Bilibili动漫的弹幕xml文件，并将其转换为ass文件以便于本地视频播放器使用。
+* 借鉴并使用了[m13253/danmaku2ass: Convert comments from Niconico/AcFun/bilibili to ASS format](https://github.com/m13253/danmaku2ass/)中danmaku2ass.py文件（更名为xml2ass.py）。
 ### 环境要求：
-* 忘了....
+* Python 3
+* BeautifulSoup4
+* xml2ass.py
 ### 环境配置：
-* pass
+* BeautifulSoup4
+  * 在Terminal输入```pip install BeautifulSoup4```
+* xml2ass.py
+  * 下载[xml2ass.py](xml2ass.py)文件或在原作者的项目中下载[danmaku2ass.py](https://github.com/m13253/danmaku2ass/blob/master/danmaku2ass.py)文件并将其改名均可
 ### 用法：
 * pass
 
@@ -52,7 +62,7 @@
 ### 介绍：
 * 辅助Chrome插件“Powerful Pixiv Downloader”的脚本，将该插件导出的记录按照游戏分类，复制到新的xlsx文件中
 ### 环境要求：
-* Python 3 及以上版本
+* Python 3
 * openpyxl
 ### 环境配置：
 * openpyxl： pip install openpyxl
