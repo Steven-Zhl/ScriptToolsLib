@@ -78,7 +78,7 @@
 ### 用法：
 * pass
 ### 常见问题
-* 若提示```PermissionError: [Errno 13] Permission denied:```，请确保：(1) 原```.xlsx```文件已关闭；(2)原```.xlsx```文件并未被隐藏；以上两种情况均会造成无法将修改应用到原```.xlsx```文件，但新生成的```.xlsx```文件则不受影响。
+* 若提示```PermissionError: [Errno 13] Permission denied:```，请确保：(1) 原xlsx文件已关闭；(2)原xlsx文件并未被隐藏；以上两种情况均会无法将修改应用到原文件，但新生成的文件则不受影响。
 
 ## [《大学生创新创业》搜题工具.exe（已迁移）](https://github.com/Steven-Zhl/YNU_DaChuang_MOOC)
 ### 介绍：
