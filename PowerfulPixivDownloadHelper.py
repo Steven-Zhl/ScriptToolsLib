@@ -38,12 +38,12 @@ class Sheet:
         self.tags_col = tags_col  # 要检查的那一列
         self.row_length = row_length  # 每行内容的长度
 
-    def removeGameToNewXlsx(self, newXlsxPath: str, existTitleBar: bool, remain=False):
+    def removeGameToNewXlsx(self, newXlsx: str, existTitle: bool, remain=False):
         """
         将当前（旧）文件中的内容根据游戏不同复制到新文件中
 
-        :param newXlsxPath: 新文件的绝对路径
-        :param existTitleBar: 是否存在标题栏
+        :param newXlsx: 新文件的绝对路径
+        :param existTitle: 是否存在标题栏
         :param remain: 把图片信息复制到新文件中时，是否保留原本文件中的图片信息
         """
         game_name_list = [item.name for item in Games]  # 获取所有的游戏名称
@@ -52,12 +52,12 @@ class Sheet:
         del wb_new["Sheet"]
         for name in game_name_list:
             wb_new.create_sheet(title=name)
-            if existTitleBar:
+            if existTitle:
                 wb_new[name].append(
-                    [cell.value for cell in tuple(self.sheet)[0]])
+                    [cell.value for cell in (tuple(self.sheet)[0])[:self.row_length]])
 
         # 逐行检测游戏
-        for row_cells in (tuple(self.sheet) if not existTitleBar else tuple(self.sheet)[1:]):
+        for row_cells in (tuple(self.sheet) if not existTitle else tuple(self.sheet)[1:]):
             origin_row = self.Row(row=row_cells, row_length=self.row_length)
             for game in tuple(Games):
                 if origin_row.checkGame(tags_col=self.tags_col, gameTags=game.value):
@@ -65,7 +65,7 @@ class Sheet:
                         origin_row.getContent())  # 将本行内容添加到新的文件中
                     if not remain:
                         origin_row.clear()
-        wb_new.save(newXlsxPath)
+        wb_new.save(newXlsx)
 
     class Row:
         def __init__(self, row: tuple, row_length):
@@ -97,13 +97,15 @@ class Sheet:
                 return False
 
         def getContent(self):
-            return [cell.value for cell in self.row[0:self.row_length-1]]
+            return [cell.value for cell in self.row[:self.row_length]]
 
 
-wb = openpyxl.load_workbook(filename="这里填写原文件路径")
-ws = wb["这里填写被操作的sheet名称"]  # 如果只有一个sheet，这里可以改成ws = wb.active
+originFilePath = r"请填写原文件的绝对路径"  # 填写到文件名
+newFilePath = r"请填写新文件的绝对路径"  # 填写到文件名
+wb = openpyxl.load_workbook(filename=originFilePath)
+ws = wb["这里填被操作的Sheet的名称"]  # 如果只有一个sheet，这里可以改成ws = wb.active
 # tags_col是检查tag的所在列；row_length是每行内容的长度
-operate = Sheet(sheet=ws, tags_col=3)
-operate.removeGameToNewXlsx(newXlsxPath="这里填写要保存的路径", existTitleBar=True,
-                            remain=True)  # existTitleBar:是否有标题栏；remain:在复制时是否保留原有的内容
-wb.save("这里填写原文件路径")
+operate = Sheet(sheet=ws, tags_col=3, row_length=9)
+# existTitleBar:是否有标题栏；remain:在复制时是否保留原有的内容
+operate.removeGameToNewXlsx(newXlsx=newFilePath, existTitle=True, remain=False)
+wb.save(filename=originFilePath)
