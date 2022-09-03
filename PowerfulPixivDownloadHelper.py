@@ -36,7 +36,7 @@ class Sheet:
         """
         self.sheet = sheet  # 被操作的工作表
         self.tags_col = tags_col  # 要检查的那一列
-        self.row_length = row_length  # 每一行的内容区间
+        self.row_length = row_length  # 每行内容的长度
 
     def removeGameToNewXlsx(self, newXlsxPath: str, existTitleBar: bool, remain=False):
         """
@@ -62,7 +62,7 @@ class Sheet:
             for game in tuple(Games):
                 if origin_row.checkGame(tags_col=self.tags_col, gameTags=game.value):
                     wb_new[game.name].append(
-                        [cell.value for cell in origin_row.row])  # 将本行内容添加到新的文件中
+                        origin_row.getContent())  # 将本行内容添加到新的文件中
                     if not remain:
                         origin_row.clear()
         wb_new.save(newXlsxPath)
@@ -96,11 +96,14 @@ class Sheet:
             else:
                 return False
 
+        def getContent(self):
+            return [cell.value for cell in self.row[0:self.row_length-1]]
+
 
 wb = openpyxl.load_workbook(filename="这里填写原文件路径")
 ws = wb["这里填写被操作的sheet名称"]  # 如果只有一个sheet，这里可以改成ws = wb.active
 # tags_col是检查tag的所在列；row_length是每行内容的长度
-operate = Sheet(sheet=ws, tags_col=3, row_length=3)
+operate = Sheet(sheet=ws, tags_col=3)
 operate.removeGameToNewXlsx(newXlsxPath="这里填写要保存的路径", existTitleBar=True,
                             remain=True)  # existTitleBar:是否有标题栏；remain:在复制时是否保留原有的内容
 wb.save("这里填写原文件路径")
