@@ -66,8 +66,8 @@ class Download:
         return True
 
 
-d = Download('https://www.bilibili.com/video/BV1yQ4y1h7k8',
-             r"E:\BaiduNetdiskDownload")
+d = Download(url='https://www.bilibili.com/video/BV1HU4y1m72z',
+             savepath=r"E:\Downloads")
 d.getHtml()
 d.getMessage()
 d.download()

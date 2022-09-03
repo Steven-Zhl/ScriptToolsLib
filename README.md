@@ -40,7 +40,16 @@
 * xml2ass.py
   * 下载[xml2ass.py](xml2ass.py)文件或在原作者的项目中下载[danmaku2ass.py](https://github.com/m13253/danmaku2ass/blob/master/danmaku2ass.py)文件并将其改名均可
 ### 用法：
-* pass
+* 找到一份你喜爱的视频（以下以[《One Last Kiss》](https://www.bilibili.com/video/BV1HU4y1m72z)）为例
+  * ![image](README_Pics/Bili_Video_bullet_chat_1.jpeg)
+* 将链接🔗复制到[下载B站视频弹幕.py](/%E4%B8%8B%E8%BD%BDB%E7%AB%99%E8%A7%86%E9%A2%91%E5%BC%B9%E5%B9%95.py)文件中，位于最后的```Download```类的```url```参数中，同时```savepath```参数填写要保存的路径。
+  * ![image](README_Pics/Bili_Video_bullet_chat_2.jpeg)
+* 运行程序，结束后即可在设置的路径中找到```.ass```文件，名称即为网页名称
+  * ![image](README_Pics/Bili_Video_bullet_chat_3.jpeg)
+* 此刻即可在本地搭配弹幕和视频一起使用
+  * ![image](README_Pics/Bili_Video_bullet_chat_4.jpeg)
+### 常见问题
+* 若提示```FileNotFoundError: [Errno 2] No such file or directory: ```，请确保```savepath```文件夹已存在，不然将无法获得弹幕文件。
 
 ## [下载B站动漫弹幕.py](/%E4%B8%8B%E8%BD%BDB%E7%AB%99%E5%8A%A8%E6%BC%AB%E5%BC%B9%E5%B9%95.py)
 ### 介绍：
@@ -68,6 +77,8 @@
 * openpyxl： pip install openpyxl
 ### 用法：
 * pass
+### 常见问题
+* 若提示```PermissionError: [Errno 13] Permission denied:```，请确保：(1) 原```.xlsx```文件已关闭；(2)原```.xlsx```文件并未被隐藏；以上两种情况均会造成无法将修改应用到原```.xlsx```文件，但新生成的```.xlsx```文件则不受影响。
 
 ## [《大学生创新创业》搜题工具.exe（已迁移）](https://github.com/Steven-Zhl/YNU_DaChuang_MOOC)
 ### 介绍：
