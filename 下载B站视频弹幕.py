@@ -49,9 +49,9 @@ class Download:
         barrageUrl = f'https://comment.bilibili.com/{self.cid}.xml'
         self.barrageUrl = barrageUrl
 
-    def download(self):
-        res = requests.get(
-            self.barrageUrl, headers=self.headers, proxies=self.proxies)
+    def download(self, proxies=False):
+        res = requests.get(self.barrageUrl, headers=self.headers, proxies=self.proxies) if proxies else requests.get(
+            self.barrageUrl, headers=self.headers)
         self.filepath = os.path.join(
             self.savepath, self.title + '[' + self.author + ']' + '.xml')
         with open(self.filepath, 'wb') as f:
@@ -66,8 +66,8 @@ class Download:
         return True
 
 
-d = Download(url='https://www.bilibili.com/video/BV1HU4y1m72z',
-             savepath=r"E:\Downloads")
+d = Download(url='url',
+             savepath=r"dir")
 d.getHtml(proxies=False)
 d.getMessage()
 d.download()
