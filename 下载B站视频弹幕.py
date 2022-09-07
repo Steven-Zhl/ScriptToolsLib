@@ -21,8 +21,8 @@ class Download:
         self.headers = {
             'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.142 Safari/537.36'}
         self.proxies = {
-            'http': 'http://127.0.0.1:10809',
-            'https': 'http://127.0.0.1:10809'
+            'http': 'http://127.0.0.1:port',
+            'https': 'http://127.0.0.1:port'
         }
         self.width = width  # 视频宽度
         self.height = height  # 视频高度
