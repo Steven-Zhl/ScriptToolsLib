@@ -20,6 +20,7 @@ class Operate:
         self.changeFont = 'Microsoft YaHei UI'
         self.originFontSize = '22'
         self.changeFontSize = '40'
+        self.supportVideoType = ['.mkv', '.mp4', '.avi', '.flv', '.wmv']
 
     def createExtraDir(self):
         # 创建Extra文件夹
@@ -47,11 +48,12 @@ class Operate:
     def renameVideo(self):
         # 重命名视频文件
         for j in os.listdir(self.path):
-            if j.endswith('.mkv'):
+            if j.endswith(tuple(self.supportVideoType)):
                 index = re.findall("[ \[]?\d{2}[ \]]?", j)[0].strip()
+                ext = j.split('.')[-1]
                 index = re.sub('[\[\]]', '', index)
                 os.rename(os.path.join(path, j),
-                          os.path.join(path, index + '.mkv'))
+                          os.path.join(path, index + "." + ext))
 
     def xmlToAss(self, source):
         # 将xml文件转换为ass文件
@@ -106,46 +108,47 @@ class GetAss:
         self.headers = {
             'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.142 Safari/537.36'}
         self.proxies = {
-            'http': 'http://127.0.0.1:10809',
-            'https': 'http://127.0.0.1:10809'
-        }
+            'http': 'http://127.0.0.1:port',
+            'https': 'http://127.0.0.1:port'
+        }  # 开启v2ray代理，用于访问部分大陆IP无法访问的番剧（僅限港澳臺地區）
 
-    def 批量下载(self, cidList):
+    def 批量下载(self, cidList, proxies=False):
         for j in range(len(cidList)):
             time.sleep(1)
             cid = cidList[j]
             url = f'https://comment.bilibili.com/{cid}.xml'
-            res = requests.get(url, headers=self.headers, proxies=self.proxies)
+            res = requests.get(url, headers=self.headers, proxies=self.proxies) if proxies else requests.get(
+                url, headers=self.headers)
             name = str(j + 1)
             if len(name) == 1:
                 name = '0' + name
             with open(os.path.join(self.downloadPath, f'{name}.xml'), 'wb') as f:
                 f.write(res.content)
 
-    def 获取到全部cid(self, num, local=False):
+    def 获取到全部cid(self, num, local=False, proxies=False):
         if local:
             with open(self.url, 'r', encoding='utf-8', errors='ignore') as f:
                 res = f.read()
         else:
             res = requests.get(self.url, headers=self.headers,
-                               proxies=self.proxies).text
+                               proxies=self.proxies).text if proxies else requests.get(self.url,
+                                                                                       headers=self.headers).text
         cid = re.findall(r'"cid":(.*?),', res)
         cid.remove('0')
         return cid[:num]
 
 
-url = r"https://www.bilibili.com/bangumi/play/ep330669/"
-path = r'E:\Videos\动漫\我的青春恋爱物语果然有问题\第3季'
-num = 12
-operate = Operate(path, num)
-getass = GetAss(url, path)
-operate.renameSubtitle()
-# operate.renameVideo()
-cidList = getass.获取到全部cid(num)  # 可以添加local=True参数，解析本地html
-getass.批量下载(cidList)
+url = r"动漫链接"  # 要下载的动漫的任意一集B站链接
+path = r'填写剧集及字幕所在的路径'  # 剧集及字幕所在的路径
+num = 13  # 剧集数，请保持本地与B站一致
+operate = Operate(path, num)  # 请不要改动
+getass = GetAss(url, path)  # 请不要改动
+# operate.renameSubtitle()  # 重命名字幕文件，变为01.ass,02.ass这种形式
+# operate.renameVideo()  # 重命名视频文件，变为01.mkv,02.mp4这种形式
+cidList = getass.获取到全部cid(num)  # 请不要改动；local=True的选项应当废弃。
+getass.批量下载(cidList)  # 请不要改动
 # 将文件转换为ass
 for j in os.listdir(path):
     if j.endswith('.xml'):
         operate.xmlToAss(j)
-# 合并弹幕和字幕
-operate.mergeSubtitleBarrage()
+operate.mergeSubtitleBarrage()  # 合并弹幕和字幕
