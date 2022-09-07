@@ -70,5 +70,5 @@ d = Download(url='url',
              savepath=r"dir")
 d.getHtml(proxies=False)
 d.getMessage()
-d.download()
+d.download(proxies=False)
 d.xml2ass()
