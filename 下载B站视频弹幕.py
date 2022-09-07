@@ -27,10 +27,10 @@ class Download:
         self.width = width  # 视频宽度
         self.height = height  # 视频高度
 
-    def getHtml(self):
+    def getHtml(self, proxies=False):
         # 获取html内容
-        res = requests.get(
-            self.videoUrl, headers=self.headers, proxies=self.proxies)
+        res = requests.get(self.videoUrl, headers=self.headers, proxies=self.proxies) if proxies else requests.get(
+            self.videoUrl, headers=self.headers)
         self.html = res.text
 
     def getMessage(self):
@@ -68,7 +68,7 @@ class Download:
 
 d = Download(url='https://www.bilibili.com/video/BV1HU4y1m72z',
              savepath=r"E:\Downloads")
-d.getHtml()
+d.getHtml(proxies=False)
 d.getMessage()
 d.download()
 d.xml2ass()
