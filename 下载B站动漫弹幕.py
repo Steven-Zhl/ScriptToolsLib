@@ -20,7 +20,12 @@ class Operate:
         self.changeFont = 'Microsoft YaHei UI'
         self.originFontSize = '22'
         self.changeFontSize = '40'
+        self.indexPattern = [re.compile("\[\d{2}\]"), re.compile(
+            " \d{2} "), re.compile("-\d{2}-")]  # 用于获取index的正则对象
         self.supportVideoType = ['.mkv', '.mp4', '.avi', '.flv', '.wmv']
+        self.supportSubtitleType = ['.ass', '.sup']
+        self.traditionalChinese = ['tc', 'cht', 'TC', 'CHT']  # 繁体中文的标识
+        self.simpleChinese = ['sc', 'chs', 'SC', 'CHS']  # 简体中文的标识
 
     def createExtraDir(self):
         # 创建Extra文件夹
@@ -28,32 +33,46 @@ class Operate:
             os.mkdir(os.path.join(self.path, 'Extra'))
 
     def renameSubtitle(self):
-        # 重命名字幕文件(变为01.ass)
+        # 重命名字幕文件
         self.createExtraDir()  # 检查下有没有Extra文件夹，没有就创建
         for j in os.listdir(self.path):
-            if j.endswith('.ass') and 'Preview' not in j:
-                name = j.split('.')[0]
-                types = j.split('.')[-2]
-                index = re.findall("[ \[]?\d{2}[ \]]?", j)[0].strip()
-                index = re.sub('[\[\]]', '', index)
-                if 'sc' in types or 'chs' in types or 'SC' in types or 'CHS' in types:
+            if j.endswith(tuple(self.supportSubtitleType)) and 'Preview' not in j:
+                name, ext = ".".join(j.split('.')[:-1]), "."+j.split('.')[-1]
+                type = "Simple"
+                for key in self.simpleChinese:
+                    if key in name:
+                        type = "Simple"
+                        break
+                    else:
+                        type = "Traditional"
+                index = self.getIndex(j)
+                if type == 'Simple':
                     os.rename(os.path.join(path, j),
-                              os.path.join(path, index + '.ass'))
-                elif 'tc' in types or 'cht' in types or 'TC' in types or 'CHT' in types:
+                              os.path.join(path, index + ext))
+                elif type == 'Traditional':
                     os.rename(os.path.join(path, j), os.path.join(
-                        path, index + '_' + types + '.ass'))
-                    shutil.move(os.path.join(path, index + '_' + types + '.ass'),
+                        path, index + '_' + types + ext))
+                    shutil.move(os.path.join(path, index + '_' + types + ext),
                                 os.path.join(path, 'Extra'))  # 把繁体字幕挪到Extra中
 
     def renameVideo(self):
         # 重命名视频文件
         for j in os.listdir(self.path):
             if j.endswith(tuple(self.supportVideoType)):
-                index = re.findall("[ \[]?\d{2}[ \]]?", j)[0].strip()
+                index = self.getIndex(j)
                 ext = j.split('.')[-1]
-                index = re.sub('[\[\]]', '', index)
                 os.rename(os.path.join(path, j),
                           os.path.join(path, index + "." + ext))
+
+    def getIndex(self, name):
+        for pattern in self.indexPattern:
+            try:
+                index = pattern.search(string=name).group()
+                break
+            except:
+                continue
+        index = re.sub('[- \[\]]', '', index) if '[' in index else index
+        return index
 
     def xmlToAss(self, source):
         # 将xml文件转换为ass文件
@@ -110,7 +129,7 @@ class GetAss:
         self.proxies = {
             'http': 'http://127.0.0.1:port',
             'https': 'http://127.0.0.1:port'
-        }  # 开启v2ray代理，用于访问部分大陆IP无法访问的番剧（僅限港澳臺地區）
+        }  # 开启代理用，请自行分配端口
 
     def 批量下载(self, cidList, proxies=False):
         for j in range(len(cidList)):
@@ -138,17 +157,17 @@ class GetAss:
         return cid[:num]
 
 
-url = r"动漫链接"  # 要下载的动漫的任意一集B站链接
-path = r'填写剧集及字幕所在的路径'  # 剧集及字幕所在的路径
+url = r"https://www.bilibili.com/bangumi/play/ep374668/"  # 要下载的动漫的任意一集B站链接
+path = r'E:\Videos\动漫\堀与宫村'  # 剧集及字幕所在的路径
 num = 13  # 剧集数，请保持本地与B站一致
 operate = Operate(path, num)  # 请不要改动
 getass = GetAss(url, path)  # 请不要改动
-# operate.renameSubtitle()  # 重命名字幕文件，变为01.ass,02.ass这种形式
-# operate.renameVideo()  # 重命名视频文件，变为01.mkv,02.mp4这种形式
-cidList = getass.获取到全部cid(num)  # 请不要改动；local=True的选项应当废弃。
+operate.renameSubtitle()  # 重命名字幕文件，变为01.ass,02.ass这种形式，目前仅支持ass格式字幕
+operate.renameVideo()  # 重命名视频文件，变为01.mkv、02.mp4这种形式
+cidList = getass.获取到全部cid(num)  # 请不要改动；local=True请不要填写
 getass.批量下载(cidList)  # 请不要改动
 # 将文件转换为ass
 for j in os.listdir(path):
     if j.endswith('.xml'):
         operate.xmlToAss(j)
-operate.mergeSubtitleBarrage()  # 合并弹幕和字幕
+# operate.mergeSubtitleBarrage()  # 合并弹幕和字幕，如果字幕并非ass文件请注释掉
