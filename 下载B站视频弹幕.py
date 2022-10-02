@@ -37,15 +37,21 @@ class Download:
         soup = BS(self.html, 'html.parser')
         self.title = str(soup.find(name="title").contents[0])
         self.title = self.title.replace('_哔哩哔哩_bilibili', '').strip()
+        self.title = re.sub(r'[\/\\\:\*\?\"\<\>\|]', ' ',
+                            self.title)  # 替换掉Windows中不可用于文件名的字符
         self.cid = re.findall(r'"cid":(.*?),', self.html)[0]
-        if soup.find(class_="normal-members-container"):
+        if soup.find(class_="normal-members-container"):  # 多个UP主
             members = soup.find(
                 class_="normal-members-container").find_all(class_="upname")
-            self.author = "; ".join([partner.text for partner in members])
-        else:
+            self.author = " ; ".join(
+                [partner.text for partner in members])  # 多个UP主的分割符
+        else:  # 单个UP主
             self.author = (soup.find_all(class_='name')[
                            0]).find_next("a").contents[0]
             self.author = self.author.replace('\n', '').strip()
+        self.author = re.sub(r'[\/\\\:\*\?\"\<\>\|]',
+                             ' ', self.author)  # 替换掉Windows中不可用于文件名的字符
+        # 这就是B站存放弹幕的文件啦
         barrageUrl = f'https://comment.bilibili.com/{self.cid}.xml'
         self.barrageUrl = barrageUrl
 
@@ -66,8 +72,7 @@ class Download:
         return True
 
 
-d = Download(url='url',
-             savepath=r"dir")
+d = Download(url='url', savepath=r"dir")
 d.getHtml(proxies=False)
 d.getMessage()
 d.download(proxies=False)

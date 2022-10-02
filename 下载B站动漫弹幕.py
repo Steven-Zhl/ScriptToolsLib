@@ -38,13 +38,12 @@ class Operate:
         for j in os.listdir(self.path):
             if j.endswith(tuple(self.supportSubtitleType)) and 'Preview' not in j:
                 name, ext = ".".join(j.split('.')[:-1]), "."+j.split('.')[-1]
-                type = "Simple"
-                for key in self.simpleChinese:
+                for key in self.traditionalChinese:
                     if key in name:
-                        type = "Simple"
-                        break
-                    else:
                         type = "Traditional"
+                        break
+                else:
+                    type = "Simple"
                 index = self.getIndex(j)
                 if type == 'Simple':
                     os.rename(os.path.join(path, j),
@@ -72,6 +71,7 @@ class Operate:
             except:
                 continue
         index = re.sub('[- \[\]]', '', index) if '[' in index else index
+        index = index.strip()
         return index
 
     def xmlToAss(self, source):
