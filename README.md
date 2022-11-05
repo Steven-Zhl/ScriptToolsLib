@@ -44,13 +44,13 @@
   * 下载[xml2ass.py](./Bilibili_Batch/xml2ass.py)文件或在原作者的项目中下载[danmaku2ass.py](https://github.com/m13253/danmaku2ass/blob/master/danmaku2ass.py)文件并将其改名均可
 #### 用法：
 * 找到一份你喜爱的视频（以下以[《One Last Kiss》](https://www.bilibili.com/video/BV1HU4y1m72z)为例）
-  * ![image](README_Pics/Bili_Video_bullet_chat_1.jpeg)
+  * ![image](IMG_README/Bili_Video_bullet_chat_1.jpeg)
 * 将链接🔗复制到[下载B站视频弹幕.py](./Bilibili_Batch/下载B站视频弹幕.py)文件中，位于最后的```Download```类的```url```参数中，同时```savepath```参数填写要保存的路径。
-  * ![image](README_Pics/Bili_Video_bullet_chat_2.jpeg)
+  * ![image](IMG_README/Bili_Video_bullet_chat_2.jpeg)
 * 运行程序，结束后即可在设置的路径中找到```.ass```文件，名称即为网页名称
-  * ![image](README_Pics/Bili_Video_bullet_chat_3.jpeg)
+  * ![image](IMG_README/Bili_Video_bullet_chat_3.jpeg)
 * 此刻即可在本地搭配弹幕和视频一起使用
-  * ![image](README_Pics/Bili_Video_bullet_chat_4.jpeg)
+  * ![image](IMG_README/Bili_Video_bullet_chat_4.jpeg)
 #### 常见问题
 * 若提示```FileNotFoundError: [Errno 2] No such file or directory: ```，请确保```savepath```文件夹已存在，不然将无法获得弹幕文件。
 
@@ -70,10 +70,10 @@
   * 下载[xml2ass.py](./Bilibili_Batch/xml2ass.py)文件或在原作者的项目中下载[danmaku2ass.py](https://github.com/m13253/danmaku2ass/blob/master/danmaku2ass.py)文件并将其改名均可
 #### 用法：
 * 首先本地已有13集的视频及字幕（这里已经重命名过了，如果是BD名称，例如“[Kamigami&VCB-Studio] Yahari Ore no Seishun Lovecome wa Machigatte Iru. Zoku [01][Ma10p_1080p][x265_flac].mkv”也没问题的）
-  * ![image](README_Pics/Bili_Comic_bullet_chat_1.jpg)
-  * ![image](README_Pics/Bili_Comic_bullet_chat_2.jpg)
+  * ![image](IMG_README/Bili_Comic_bullet_chat_1.jpg)
+  * ![image](IMG_README/Bili_Comic_bullet_chat_2.jpg)
 * 找到你想合并的番剧（以下以[《我的青春恋爱物语果然有问题。续》](https://www.bilibili.com/bangumi/play/ep64315/)为例）
-  * ![image](README_Pics/Bili_Comic_bullet_chat_3.jpg)
+  * ![image](IMG_README/Bili_Comic_bullet_chat_3.jpg)
 * 随后开始修改代码文件中最后几项的参数
   * ```url```：动漫的网页链接（https://www.bilibili.com/bangumi/play/ep64315/）
   * ```path```：视频及字幕文件的本地路径（E:/Videos/动漫/我的青春恋爱物语果然有问题/第2季）
@@ -82,10 +82,10 @@
   * ```operate.renameVideo()```：如已经修改成“01.mkv”格式的视频，请注释掉
   * ```operate.mergeSubtitleBarrage()```：合并弹幕与字幕，如果并无外挂字幕或不想合并，请注释掉。
   * 所以对于我来说，参数应当这么设置
-    ![image](README_Pics/Bili_Comic_bullet_chat_4.jpg)
+    ![image](IMG_README/Bili_Comic_bullet_chat_4.jpg)
 * 最后执行即可
   * 执行过程中，目标路径下会逐渐出现xml文件，当完全下载完成后，将转换为“01_Barrage.ass”的格式，若选择了合并字幕与弹幕，则最后会将01.ass与01_Barrage.ass合并为01.ass，此时即合并完成，即可享受动漫+外挂字幕+弹幕的最佳享受。
-  * ![image](README_Pics/Bili_Comic_bullet_chat_5.jpg)
+  * ![image](IMG_README/Bili_Comic_bullet_chat_5.jpg)
 #### 注意事项：
 * 如不需要合并字幕与弹幕，请注释掉代码最后一行的```operate.mergeSubtitleBarrage()```，不然会报错（虽然并不会对文件产生影响）
 * 请确保文件中包含标明集数的2位数字（例如[Kamigami&VCB-Studio] Yahari Ore no Seishun Lovecome wa Machigatte Iru. Zoku [01][Ma10p_1080p][x265_flac].mkv）
@@ -120,7 +120,7 @@
 * 按提示依次输入考试页面的地址并选择模式
 * 等待输出答案
 
-## 一键关机.bat
+## [一键关机.bat](./一键关机.bat)
 ### 介绍：
 * 使用cmd命令立刻执行关机命令
 ### 环境要求：
@@ -144,7 +144,7 @@
 ### 用法：
 * 双击直接运行
 
-# 电池状态报告.bat
+## [电池状态报告.bat](./电池状态报告.bat)
 ### 介绍：
 * 使用cmd命令生成电池状态报告文件，并自动打开
 ### 环境要求：
@@ -157,3 +157,15 @@
 * 双击直接运行
 * cmd环境下，直接键入文件路径
 * Powershell环境下，键入'cmd /c "[文件路径]"'
+
+## [Powershell&Cmd常用指令.md](./Powershell&Cmd常用指令.md)
+### 介绍：
+* 记一些常用的Powershell和cmd指令
+### 环境要求：
+* Windows
+* cmd
+* Powershell
+### 环境配置：
+* 无
+### 用法：
+* 无
