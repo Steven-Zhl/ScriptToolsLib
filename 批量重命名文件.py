@@ -79,7 +79,7 @@ class Commander:
     def showAllStu(self):
         for stu in self.nameDict:
             print("--------------------------------")
-            stu.show()
+            self.nameDict[stu].show()
         print("共有{}名成员".format(len(self.nameDict)))
         self.menu()
 

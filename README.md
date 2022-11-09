@@ -51,7 +51,7 @@
   * ![image](IMG_README/Bili_Video_bullet_chat_3.jpeg)
 * 此刻即可在本地搭配弹幕和视频一起使用
   * ![image](IMG_README/Bili_Video_bullet_chat_4.jpeg)
-#### 常见问题
+#### 常见问题：
 * 若提示```FileNotFoundError: [Errno 2] No such file or directory: ```，请确保```savepath```文件夹已存在，不然将无法获得弹幕文件。
 
 ### [下载B站动漫弹幕.py](./Bilibili_Batch/下载B站动漫弹幕.py)
@@ -91,7 +91,7 @@
 * 请确保文件中包含标明集数的2位数字（例如[Kamigami&VCB-Studio] Yahari Ore no Seishun Lovecome wa Machigatte Iru. Zoku [01][Ma10p_1080p][x265_flac].mkv）
 * 请确保所填的路径下没有xml文件
 * 下载的弹幕文件名为**2位数字.xml**，随后会转换成**ass**文件，请确保保存路径下没有xml文件，否则有可能会修改成别的文件。
-#### 常见问题
+#### 常见问题：
 若提示```SSLError: HTTPSConnectionPool(host='comment.bilibili.com', port=443)```或```[WinError 10061] 由于目标计算机积极拒绝，无法连接。```，请尝试开启或关闭代理（在```getass.批量下载(cidList)```和```cidList = getass.获取到全部cid(num)```中添加参数```proxies = True```，并修改GetAss类的```self.proxies```为自己的代理端口）
 
 ## [PowerfulPixivDownloadHelper.py](./PowerfulPixivDownloadHelper.py)
@@ -104,7 +104,7 @@
 * openpyxl： pip install openpyxl
 ### 用法：
 * pass
-### 常见问题
+### 常见问题：
 * 若提示```PermissionError: [Errno 13] Permission denied:```，请确保：(1) 原xlsx文件已关闭；(2)原xlsx文件并未被隐藏；以上两种情况均会无法将修改应用到原文件，但新生成的文件则不受影响。
 
 ## [《大学生创新创业》搜题工具.exe（已迁移）](https://github.com/Steven-Zhl/YNU_DaChuang_MOOC)
@@ -169,3 +169,21 @@
 * 无
 ### 用法：
 * 无
+
+## [ShowChromiumAccounts.exe](./ShowChromiumAccounts.exe)
+### 介绍：
+> **⚠⚠注意：本文件仅用于学习用途，因此只上传打包后的exe版本，该文件也是进行了两层编译后得到的可执行文件，反编译难度非常大。本文件不开放源代码，请勿用作非法用途，所造成的一切后果不承担相关责任。**
+> 
+> **（同时为了表现Chromium内核在账号安全性的保护上有多么偷懒，用数据库存没问题，但是你这安全措施直接就几乎没有啊）**
+* 一个用于显示Chromium浏览器中，账号密码数据库的工具（目前仅限Chrome和Edge，但相信大多数人的主要浏览器都是这两者之一）
+### 环境要求：
+* 源代码：
+  * Windows XP及以上
+  * Python 3
+  * win32.win32crypt
+  * cryptography
+  * json
+* 可执行文件：
+  * Windows（无需任意环境）
+### 用法：
+* 下载完成后，打开cmd，将该文件拖拽至cmd窗口，回车即可。
