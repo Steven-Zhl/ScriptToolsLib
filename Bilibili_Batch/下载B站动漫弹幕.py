@@ -38,6 +38,7 @@ class Operate:
         for j in os.listdir(self.path):
             if j.endswith(tuple(self.supportSubtitleType)) and 'Preview' not in j:
                 name, ext = ".".join(j.split('.')[:-1]), "."+j.split('.')[-1]
+                # 判断字幕文件是简体还是繁体
                 for key in self.traditionalChinese:
                     if key in name:
                         type = "Traditional"
@@ -45,6 +46,7 @@ class Operate:
                 else:
                     type = "Simple"
                 index = self.getIndex(j)
+                # 判断完成后的操作：简体字幕重命名，繁体字幕移动到Extra中
                 if type == 'Simple':
                     os.rename(os.path.join(path, j),
                               os.path.join(path, index + ext))
@@ -119,6 +121,13 @@ class Operate:
             # 删除弹幕文件
             os.remove(os.path.join(self.path, barrage_name))
 
+    def renameSingleBarrage(self):
+        # 将Barrage.ass文件重命名为ass文件，作为默认挂载的字幕
+        for j in os.listdir(self.path):
+            if j.endswith('.ass') and "Barrage" in j:
+                newName = j.replace("_Barrage", "")
+                os.rename(os.path.join(path, j), os.path.join(path, newName))
+
 
 class GetAss:
     def __init__(self, url, downloadPath):
@@ -144,30 +153,34 @@ class GetAss:
             with open(os.path.join(self.downloadPath, f'{name}.xml'), 'wb') as f:
                 f.write(res.content)
 
-    def 获取到全部cid(self, num, local=False, proxies=False):
-        if local:
-            with open(self.url, 'r', encoding='utf-8', errors='ignore') as f:
-                res = f.read()
-        else:
+    def 获取到全部cid(self, num, proxies=False):
+        if proxies:
             res = requests.get(self.url, headers=self.headers,
-                               proxies=self.proxies).text if proxies else requests.get(self.url,
-                                                                                       headers=self.headers).text
+                               proxies=self.proxies).text
+        else:
+            res = requests.get(self.url, headers=self.headers).text
         cid = re.findall(r'"cid":(.*?),', res)
         cid.remove('0')
         return cid[:num]
 
 
-url = r"https://www.bilibili.com/bangumi/play/ep374668/"  # 要下载的动漫的任意一集B站链接
-path = r'E:\Videos\动漫\堀与宫村'  # 剧集及字幕所在的路径
-num = 13  # 剧集数，请保持本地与B站一致
-operate = Operate(path, num)  # 请不要改动
-getass = GetAss(url, path)  # 请不要改动
-operate.renameSubtitle()  # 重命名字幕文件，变为01.ass,02.ass这种形式，目前仅支持ass格式字幕
-operate.renameVideo()  # 重命名视频文件，变为01.mkv、02.mp4这种形式
-cidList = getass.获取到全部cid(num)  # 请不要改动；local=True请不要填写
-getass.批量下载(cidList)  # 请不要改动
-# 将文件转换为ass
-for j in os.listdir(path):
-    if j.endswith('.xml'):
-        operate.xmlToAss(j)
-# operate.mergeSubtitleBarrage()  # 合并弹幕和字幕，如果字幕并非ass文件请注释掉
+if __name__ == '__main__':
+    哔哩哔哩链接 = r"https://www.bilibili.com/bangumi/play/ep510759/"  # 要下载的动漫的任意一集B站链接
+    本地路径 = r'E:\Videos\动漫\夏日重现'  # 剧集及字幕所在的路径，请确保为一文件夹路径
+    剧集数 = 25  # 剧集数，请保持本地与B站一致
+    合并外挂ass字幕与弹幕 = True  # 只有字幕文件为单独的.ass文件，且想要合并字幕和弹幕到同一文件中时才为True，否则为False
+
+    operate = Operate(本地路径, 剧集数)  # 请不要改动
+    getass = GetAss(哔哩哔哩链接, 本地路径)  # 请不要改动
+    operate.renameSubtitle()  # 重命名字幕文件，变为01.ass,02.ass这种形式
+    operate.renameVideo()  # 重命名视频文件，变为01.mkv、02.mp4这种形式
+    cidList = getass.获取到全部cid(剧集数)  # 请不要改动
+    getass.批量下载(cidList)  # 请不要改动
+    # 将文件转换为ass
+    for j in os.listdir(path):
+        if j.endswith('.xml'):
+            operate.xmlToAss(j)
+    if 合并外挂ass字幕与弹幕:
+        operate.mergeSubtitleBarrage()
+    else:
+        operate.renameSingleBarrage()
