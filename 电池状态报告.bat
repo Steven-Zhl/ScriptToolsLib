@@ -1,3 +1,5 @@
+@echo off
 powercfg /batteryreport /output "battery_report.html"
-echo 宸蹭繚瀛樿嚦褰撳墠鏂囦欢澶逛笅
+echo 查看完成后请及时清理
 cmd /c start battery_report.html
+pause
