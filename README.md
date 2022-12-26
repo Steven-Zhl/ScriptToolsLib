@@ -7,14 +7,14 @@
 * [脚本工具](#脚本工具)
   * [目录](#目录)
   * [FxxkChromiumSecurity.py](#fxxkchromiumsecuritypy)
-  * [`M3U8_Decrypt.py`](#m3u8_decryptpy)
-  * [`PowerfulPixivDownloadHelper.py`](#powerfulpixivdownloadhelperpy)
+  * [M3U8\_Decrypt.py](#m3u8_decryptpy)
+  * [PowerfulPixivDownloadHelper.py](#powerfulpixivdownloadhelperpy)
   * [Powershell\&Cmd常用指令.md](#powershellcmd常用指令md)
   * [YNU\_TimetableConvert](#ynu_timetableconvert)
   * [电池状态报告.bat](#电池状态报告bat)
-  * [`批量重命名文件.py`](#批量重命名文件py)
-  * [`下载B站动漫弹幕.py`](#下载b站动漫弹幕py)
-  * [`下载B站视频弹幕.py`](#下载b站视频弹幕py)
+  * [批量重命名文件.py](#批量重命名文件py)
+  * [下载B站动漫弹幕.py](#下载b站动漫弹幕py)
+  * [下载B站视频弹幕.py](#下载b站视频弹幕py)
   * [一键关机.bat](#一键关机bat)
   * [《大学生创新创业》搜题工具](#大学生创新创业搜题工具)
 
@@ -38,7 +38,7 @@
 
 * 在Python环境中运行即可
 
-## [`M3U8_Decrypt.py`](./M3U8_Decrypt.py)
+## [M3U8_Decrypt.py](./M3U8_Decrypt.py)
 
 * 使用Python.Crypto进行文件的AES解密、合并，可以说这个脚本完全是为了解决UC下载视频的问题而写的。
 * 曾经在UC上下载视频，格式是`m3u8`，且使用了`AES-128`加密，使得大多数本支持`ts`格式的视频软件也无法正常播放。不过刚刚发现UC自带转mp4功能了，并且取消了加密，所以这个脚本就没什么用了....
@@ -58,7 +58,7 @@
 
 * 不写了，因为甚至找不到一个文件来用这个脚本
 
-## [`PowerfulPixivDownloadHelper.py`](./PowerfulPixivDownloadHelper.py)
+## [PowerfulPixivDownloadHelper.py](./PowerfulPixivDownloadHelper.py)
 
 * 辅助Chrome插件`Powerful Pixiv Downloader`的脚本，将该插件导出的记录按照游戏分类，复制到新的xlsx文件中
 * 目前这个脚本功能还很不完善，比较鸡肋，待以后什么时候填填坑吧。
@@ -137,7 +137,7 @@
 2. cmd中，直接输入`bat`文件的路径
 3. Powershell中，输入`cmd /c [bat文件路径]`
 
-## [`批量重命名文件.py`](./批量重命名文件.py)
+## [批量重命名文件.py](./批量重命名文件.py)
 
 * 使用Python从Excel中获取学生信息，并对文件进行批量重命名。例如对腾讯收集表中的图片附件进行批量重命名。
 * 但目前这个文件功能还太过基础，会考虑在闲暇时增添一些功能的。
@@ -156,7 +156,7 @@
 
 * pass
 
-## [`下载B站动漫弹幕.py`](./Bilibili_Batch/下载B站动漫弹幕.py)
+## [下载B站动漫弹幕.py](./Bilibili_Batch/下载B站动漫弹幕.py)
 
 * 使用Python获取Bilibili动漫的弹幕xml文件，并将其转换为ass文件以便于本地视频播放器使用。
 * 借鉴并使用了[m13253/danmaku2ass: Convert comments from Niconico/AcFun/bilibili to ASS format](https://github.com/m13253/danmaku2ass/)中danmaku2ass.py文件（在本库中更名为xml2ass.py）。
@@ -208,7 +208,7 @@
 
 * 若提示`SSLError: HTTPSConnectionPool(host='comment.bilibili.com', port=443)`或`[WinError 10061] 由于目标计算机积极拒绝，无法连接。`，请尝试开启或关闭代理（在`getass.批量下载(cidList)`和`cidList = getass.获取到全部cid(num)`中添加参数`proxies = True`，并修改GetAss类的`self.proxies`为自己的代理端口）
 
-## [`下载B站视频弹幕.py`](./Bilibili_Batch/下载B站视频弹幕.py)
+## [下载B站视频弹幕.py](./Bilibili_Batch/下载B站视频弹幕.py)
 
 * 使用Python获取Bilibili视频的弹幕xml文件，并将其转换为ass文件以便于本地视频播放器使用。
 * 借鉴并使用了[m13253/danmaku2ass: Convert comments from Niconico/AcFun/bilibili to ASS format](https://github.com/m13253/danmaku2ass/)中danmaku2ass.py文件（在本库中更名为`xml2ass.py`）。
