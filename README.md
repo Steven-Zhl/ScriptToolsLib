@@ -11,6 +11,7 @@
   * [PowerfulPixivDownloadHelper.py](#powerfulpixivdownloadhelperpy)
   * [Powershell\&Cmd常用指令.md](#powershellcmd常用指令md)
   * [YNU\_TimetableConvert](#ynu_timetableconvert)
+  * [YNU\_大学生创新创业MOOC搜题](#ynu_大学生创新创业mooc搜题)
   * [电池状态报告.bat](#电池状态报告bat)
   * [批量重命名文件.py](#批量重命名文件py)
   * [下载B站动漫弹幕.py](#下载b站动漫弹幕py)
@@ -116,6 +117,28 @@
 > 用法
 
 * 详见[Introduction.md](./YNU_TimetableConvert/Introduction.md)
+
+## [YNU_大学生创新创业MOOC搜题](./YNU_大学生创新创业MOOC搜题/)
+
+* 初次玩Python爬虫时做的一个练手程序，当时可以使用“精华吧”搜索“大学生创新创业”MOOC的课后题
+* 但是目前，由于该网站增强了反爬手段，已经无法使用了
+
+> 环境要求
+
+* Python 3
+* BeautifulSoup4
+* urllib3
+
+> 环境配置
+
+* BeautifulSoup4
+  * 在PowerShell输入`pip install BeautifulSoup4`
+* urllib3
+  * 通常自带，没有的话用pip安装即可
+
+> 用法
+
+* 详见本项目的[README.md](./YNU_大学生创新创业MOOC搜题/README.md)
 
 ## [电池状态报告.bat](./电池状态报告.bat)
 
