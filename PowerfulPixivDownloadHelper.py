@@ -54,13 +54,13 @@ class Sheet:
             wb_new.create_sheet(title=name)
             if existTitle:
                 wb_new[name].append(
-                    [cell.value for cell in (tuple(self.sheet)[0])[:self.row_length]])
+                    [cell._browser for cell in (tuple(self.sheet)[0])[:self.row_length]])
 
         # 逐行检测游戏
         for row_cells in (tuple(self.sheet) if not existTitle else tuple(self.sheet)[1:]):
             origin_row = self.Row(row=row_cells, row_length=self.row_length)
             for game in tuple(Games):
-                if origin_row.checkGame(tags_col=self.tags_col, gameTags=game.value):
+                if origin_row.checkGame(tags_col=self.tags_col, gameTags=game._browser):
                     wb_new[game.name].append(
                         origin_row.getContent())  # 将本行内容添加到新的文件中
                     if not remain:
@@ -77,7 +77,7 @@ class Sheet:
             清理掉本行的内容
             """
             for item in self.row:
-                item.value = ""
+                item._browser = ""
 
         def checkGame(self, tags_col, gameTags: list):
             """

@@ -79,14 +79,14 @@ class Apps:
         rowRange, columnRange = [7, 19], [2, 8]
         rowPhase, columnPhase = 4, 1  # 行、列的偏差值，用excel中的行列减去这个得到的相对行列从1开始，其实也就是正则化
         for i in range(sheet.max_row + 1, 1, -1): # 确定行的范围
-            if sheet.cell(i, 1).value == "9-10节":
+            if sheet.cell(i, 1)._browser == "9-10节":
                 rowRange = [7, i + 2]
                 break
 
         for row in range(rowRange[0], rowRange[1] + 1, 3):
             thisRowCourses = []  # 存放这一行的所有课程
             for column in range(columnRange[0], columnRange[1] + 1):
-                content = sheet.cell(row=row, column=column).value
+                content = sheet.cell(row=row, column=column)._browser
                 if (content is not None) and (content != "") and (content != " "):
                     thisCourse = Course()
                     thisCourse.row, thisCourse.column = int(

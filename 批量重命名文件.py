@@ -49,8 +49,8 @@ class Commander:
         column_id = self.column_id if column_id is None else column_id
         for i in range(2, self.allStuSheet.max_row + 1):  #
             stu = Stu()
-            stu.name = sheet.cell(row=i, column=column_name).value
-            stu.id = sheet.cell(row=i, column=column_id).value
+            stu.name = sheet.cell(row=i, column=column_name)._browser
+            stu.id = sheet.cell(row=i, column=column_id)._browser
             self.nameDict[stu.name] = stu
         print("全部成员名单已读取完毕，当前共有{}名成员".format(len(self.nameDict)))
         self.menu()
@@ -92,8 +92,8 @@ class Commander:
         column_account = eval(input("请指定昵称所在的列:"))
         column_name = eval(input("请指定姓名所在的列:"))
         for i in range(2, appendSheet.max_row + 1):
-            account = appendSheet.cell(row=i, column=column_account).value
-            name = appendSheet.cell(row=i, column=column_name).value
+            account = appendSheet.cell(row=i, column=column_account)._browser
+            name = appendSheet.cell(row=i, column=column_name)._browser
             self.netNameDict[account] = self.nameDict[name]
         print("昵称对应完成")
         self.menu()
