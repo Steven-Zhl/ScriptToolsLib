@@ -17,7 +17,6 @@
   * [下载B站动漫弹幕.py](#下载b站动漫弹幕py)
   * [下载B站视频弹幕.py](#下载b站视频弹幕py)
   * [一键关机.bat](#一键关机bat)
-  * [《大学生创新创业》搜题工具](#大学生创新创业搜题工具)
 
 ## [FxxkChromiumSecurity.py](./FxxkChromiumSecurity.py)
 
@@ -283,22 +282,3 @@
 1. 双击直接运行
 2. cmd中，直接输入`bat`文件的路径
 3. Powershell中，输入`cmd /c [bat文件路径]`即可
-
-## [《大学生创新创业》搜题工具](https://github.com/Steven-Zhl/YNU_DaChuang_MOOC)
-
-* 使用pyinstaller将解析题目的爬虫和搜索题目的Python源文件打包生成的文件
-
-> 环境要求
-
-* Windows
-
-> 环境配置
-
-* 无
-
-> 用法
-
-* 需要提前将《大学生创新创业》的考试页面保存到本地
-* 双击直接运行
-* 按提示依次输入考试页面的地址并选择模式
-* 等待输出答案
