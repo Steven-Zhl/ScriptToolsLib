@@ -6,6 +6,7 @@
 
 * [脚本工具](#脚本工具)
   * [目录](#目录)
+  * [AutoRename.py](#autorenamepy)
   * [FxxkChromiumSecurity.py](#fxxkchromiumsecuritypy)
   * [M3U8\_Decrypt.py](#m3u8_decryptpy)
   * [PowerfulPixivDownloadHelper.py](#powerfulpixivdownloadhelperpy)
@@ -13,10 +14,23 @@
   * [YNU\_TimetableConvert](#ynu_timetableconvert)
   * [YNU\_大学生创新创业MOOC搜题](#ynu_大学生创新创业mooc搜题)
   * [电池状态报告.bat](#电池状态报告bat)
-  * [批量重命名文件.py](#批量重命名文件py)
+  * [批量处理学生附件.py](#批量处理学生附件py)
   * [下载B站动漫弹幕.py](#下载b站动漫弹幕py)
   * [下载B站视频弹幕.py](#下载b站视频弹幕py)
   * [一键关机.bat](#一键关机bat)
+
+## [AutoRename.py](./AutoRename.py)
+
+* 一个用于批量重命名文件的脚本，目前只做了替换字符串，之后也许会支持正则表达式吧
+
+> 环境要求
+
+* Python 3
+
+> 用法
+
+* 在Python环境中运行即可
+* 目前提供了`bench`和`simple`两种运行模式，修改变量`mode`的值即可
 
 ## [FxxkChromiumSecurity.py](./FxxkChromiumSecurity.py)
 
@@ -159,10 +173,9 @@
 2. cmd中，直接输入`bat`文件的路径
 3. Powershell中，输入`cmd /c [bat文件路径]`
 
-## [批量重命名文件.py](./批量重命名文件.py)
+## [批量处理学生附件.py](./批量处理学生附件.py)
 
 * 使用Python从Excel中获取学生信息，并对文件进行批量重命名。例如对腾讯收集表中的图片附件进行批量重命名。
-* 但目前这个文件功能还太过基础，会考虑在闲暇时增添一些功能的。
 
 > 环境要求
 

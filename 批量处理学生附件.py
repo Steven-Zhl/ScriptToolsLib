@@ -1,6 +1,7 @@
 import os  # 重命名文件
 import re
 import openpyxl  # 操作excel
+__doc__ = "根据已有的学生信息表，批量处理收集的同学的附件"
 
 
 class Stu:
