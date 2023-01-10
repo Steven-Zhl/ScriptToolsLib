@@ -1,111 +1,165 @@
-from enum import Enum
+import time
+import pymysql as DB
+import csv
+import re
+import threading
 
-import openpyxl
-
-
-class Games(Enum):
-    原神 = ["原神", "Genshin Impact", "GenshinImpact", "Genshin", ]
-    战双帕弥什 = ["战双帕弥什", "Punishing: Gray Raven", "Punishing", "Gray Raven", ]
-    明日方舟 = ["明日方舟", "Arknights", ]
-    碧蓝航线 = ["碧蓝航线", "Azur Lane", "AzurLane", "Azur", "azur", "AZUR", ]
-    崩坏3 = ["崩坏3", "Honkai", "崩坏学园", "崩壊3", "崩壊", ]
-    尼尔机械纪元 = ["NieR:Automata", "NieR", "尼尔:自动人形",
-              "automata", "Automata", "nier", ]
-    最终幻想7 = ["最终幻想7", "FF7", "FF", ]
-    艾尔登法环 = ["艾尔登法环", "Elden Ring", "ELDENRING", ]
-    少女前线 = ["少女前线", "Girls' Frontline", "Frontline", ]
-    无期迷途 = ["无期迷途", ]
-    碧蓝档案 = ["碧蓝档案", "Blue Archive",  "BLUEARC", ]
-    绝区零 = ["绝区零", "Zenless", "Zone Zero", ]
-    幻塔 = ["幻塔", "Tower of Fantasy", ]
-    鸣潮 = ["鸣潮", "鸣潮"]
-    地下城与勇士 = ["地下城与勇士", "DNF", ]
-
-
-class Sheet:
-    """
-    被操作的Sheet
-    """
-
-    def __init__(self, sheet: openpyxl.Workbook.worksheets, tags_col=3, row_length=9):
-        """
-
-        :param sheet:被操作的sheet
-        :param tags_col: 划分游戏的内容所在列
-        :param row_length: 每行内容的长度
-        """
-        self.sheet = sheet  # 被操作的工作表
-        self.tags_col = tags_col  # 要检查的那一列
-        self.row_length = row_length  # 每行内容的长度
-
-    def removeGameToNewXlsx(self, newXlsx: str, existTitle: bool, remain=False):
-        """
-        将当前（旧）文件中的内容根据游戏不同复制到新文件中
-
-        :param newXlsx: 新文件的绝对路径
-        :param existTitle: 是否存在标题栏
-        :param remain: 把图片信息复制到新文件中时，是否保留原本文件中的图片信息
-        """
-        game_name_list = [item.name for item in Games]  # 获取所有的游戏名称
-        # 为所有游戏创建Sheet，并初始化
-        wb_new = openpyxl.Workbook()
-        del wb_new["Sheet"]
-        for name in game_name_list:
-            wb_new.create_sheet(title=name)
-            if existTitle:
-                wb_new[name].append(
-                    [cell._browser for cell in (tuple(self.sheet)[0])[:self.row_length]])
-
-        # 逐行检测游戏
-        for row_cells in (tuple(self.sheet) if not existTitle else tuple(self.sheet)[1:]):
-            origin_row = self.Row(row=row_cells, row_length=self.row_length)
-            for game in tuple(Games):
-                if origin_row.checkGame(tags_col=self.tags_col, gameTags=game._browser):
-                    wb_new[game.name].append(
-                        origin_row.getContent())  # 将本行内容添加到新的文件中
-                    if not remain:
-                        origin_row.clear()
-        wb_new.save(newXlsx)
-
-    class Row:
-        def __init__(self, row: tuple, row_length):
-            self.row = row
-            self.row_length = row_length
-
-        def clear(self):
-            """
-            清理掉本行的内容
-            """
-            for item in self.row:
-                item._browser = ""
-
-        def checkGame(self, tags_col, gameTags: list):
-            """
-            检查该行内容是否属于该游戏
-
-            :param tags_col: tag所在的col
-            :param gameTags: 用于硬匹配的tags
-            :return: bool
-            """
-            tagContent = self.row[tags_col - 1].value
-            for tag in gameTags:
-                if tag in tagContent:
-                    return True
-                else:
-                    continue
-            else:
-                return False
-
-        def getContent(self):
-            return [cell.value for cell in self.row[:self.row_length]]
+MySQL_Root = {
+    'host': 'localhost',
+    'port': 3306,
+    'user': 'root',
+    'password': '',
+    'database': 'pictures',
+}
+MySQL_Admin = {
+    'host': 'localhost',
+    'port': 3306,
+    'user': 'Admin',
+    'password': '',
+    'database': 'pictures',
+}
+CSV_Path = ""
 
 
-originFilePath = r"请填写原文件的绝对路径"  # 填写到文件名
-newFilePath = r"请填写新文件的绝对路径"  # 填写到文件名
-wb = openpyxl.load_workbook(filename=originFilePath)
-ws = wb["这里填被操作的Sheet的名称"]  # 如果只有一个sheet，这里可以改成ws = wb.active
-# tags_col是检查tag的所在列；row_length是每行内容的长度
-operate = Sheet(sheet=ws, tags_col=3, row_length=9)
-# existTitleBar:是否有标题栏；remain:在复制时是否保留原有的内容
-operate.removeGameToNewXlsx(newXlsx=newFilePath, existTitle=True, remain=False)
-wb.save(filename=originFilePath)
+def main():
+    db = DB.connect(**MySQL_Root)
+    cursor = db.cursor()
+    itemList = []
+    with open(CSV_Path, 'r', encoding='utf-8') as f:
+        reader = csv.reader(f)
+        content = [row for row in reader]
+        header = content.pop(0)
+        header[0] = 'id'  # 这个是编码问题
+        content = [dict(zip(header, row)) for row in content]
+    # 格式化content
+    for item in content:
+        if item['type'] == 'Illustration':
+            tmp = {'Title': item['title'].replace("'", r"\'"),
+                   'Source': 'Pixiv',
+                   'Source_ID': item['id'],
+                   'Source_ID_Index': [str(i) for i in range(int(item['page']))],
+                   'Painter': item['user'],
+                   'Painter_ID': item['userId'],
+                   'Age_Level': '家长指导级' if item['xRestrict'] == 'AllAges' else 'R-18',
+                   'Width': item['width'],
+                   'Height': item['height'],
+                   'Identity': '插画'}
+            tags = item['tags_transl'].split(',')
+            tags = [tag for tag in tags if not re.search('[^\d]+[1-9]+0+[^\d]+', tag)]  # 将“XXXX收藏”之类的tags删除
+            tags = [tag.replace("'", r"\'") for tag in tags]  # 将定界符转义
+            tmp['Tags'] = tags
+            itemList.append(tmp)
+
+    # 准备对象写入数据库
+    for item in itemList[84:]:
+        # 先检查是否有该作者
+        cursor.execute(
+            "SELECT * FROM author WHERE Pixiv_ID = %s" % item['Painter_ID'])
+        existAuthor = cursor.fetchone()
+        if not existAuthor:  # 不存在则插入作者信息
+            cursor.execute(
+                "INSERT INTO author(Name,Identity,Pixiv_ID) VALUES ('%s','画师',%s)" % (
+                    item['Painter'], item['Painter_ID']))
+            db.commit()
+        else:  # 存在，则将Painter插入进Name_Others字段，并更新item['Painter']为实际表中存储的名字
+            cursor.execute(
+                "SELECT Name_Others FROM author WHERE Pixiv_ID = %s" % item['Painter_ID'])
+            Name_Other = cursor.fetchone()[0]
+            if Name_Other is None:
+                Name_Other = item['Painter']
+            elif item['Painter'] not in Name_Other:
+                Name_Other = ",".join([Name_Other, item['Painter']])
+            cursor.execute(
+                "UPDATE author SET Name_Others = '%s' WHERE Pixiv_ID = %s" % (Name_Other, item['Painter_ID']))
+            db.commit()
+            cursor.execute("SELECT Name FROM author WHERE Pixiv_ID = %s" % item['Painter_ID'])
+            item['Painter'] = cursor.fetchone()[0]
+        # 将文件信息写入illustration表中，并添加对应的tags
+        cursor.execute("SELECT ID FROM pictures.author WHERE Pixiv_ID=%s" % item['Painter_ID'])
+        authorID = cursor.fetchone()[0]  # 注意，illustration表中的Painter_ID字段不是Pixiv账号，而是author表的表内ID
+        for i in item['Source_ID_Index']:
+            cursor.execute(
+                "INSERT INTO illustration SET Title = '%s', Source = '%s', Source_ID = '%s', Source_ID_Index = %s, Painter = '%s', Painter_ID = %s, Age_Level = '%s', Width = %s, Height = %s" % (
+                    item['Title'],
+                    item['Source'],
+                    item['Source_ID'],
+                    i,
+                    item['Painter'],
+                    authorID,
+                    item['Age_Level'],
+                    item['Width'],
+                    item['Height']
+                )
+            )
+            db.commit()
+            # 添加tags
+            for tag in item['Tags']:
+                cursor.execute(
+                    "INSERT INTO tags_illustration(Source, Source_ID, Source_ID_Index, Painter, Painter_ID, Identity, Tag) VALUES ('%s', '%s', %s, '%s',%s, '%s', '%s')" % (
+                        item['Source'],
+                        item['Source_ID'],
+                        i,
+                        item['Painter'],
+                        authorID,
+                        item['Identity'],
+                        tag
+                    ))
+                db.commit()
+
+
+def showProcess(task_num: int, barLength=60):
+    last_num = 0
+    while True:
+        db = DB.connect(**MySQL_Admin)
+        cursor = db.cursor()
+        cursor.execute("SELECT Count(*) FROM pictures.illustration")
+        curr_num = int(cursor.fetchone()[0]) + 1
+        if last_num != curr_num:
+            # 绘制进度条
+            percent = curr_num / task_num
+            pic_block_num = int(percent * barLength)
+            print("Pictures:" + "#" * pic_block_num + "_" * (barLength - pic_block_num),
+                  "{:.2f}".format(percent * 100),
+                  str(curr_num) + "/" + str(task_num))
+            # 更新数据
+            last_num = curr_num
+        else:
+            print("任务执行完成")
+            return
+        db.close()
+        time.sleep(1)
+
+
+class MainThread(threading.Thread):
+    def __init__(self, threadID, name, counter):
+        threading.Thread.__init__(self)
+        self.threadID = threadID
+        self.name = name
+        self.counter = counter
+
+    def run(self):
+        main()
+
+
+class ShowProcess(threading.Thread):
+    def __init__(self, threadID, name, counter):
+        threading.Thread.__init__(self)
+        self.threadID = threadID
+        self.name = name
+        self.counter = counter
+
+    def run(self):
+        showProcess(930)
+
+
+if __name__ == "__main__":
+    mode = 'batch'
+    if mode == 'batch':
+        mainProcess = MainThread(1, 'MainProcess', 1)
+        countProcess = ShowProcess(2, 'ShowProcess', 2)
+        mainProcess.start()
+        countProcess.start()
+    elif mode == 'debug':
+        main()
+    else:  # test
+        showProcess(930)
