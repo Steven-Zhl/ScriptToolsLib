@@ -30,7 +30,7 @@
 
 ### 如何安装
 
-1. 打开本脚本的Greasyfork页面：[云南大学校园网美化](https://greasyfork.org/zh-CN/scripts/476284-%E4%BA%91%E5%8D%97%E5%A4%A7%E5%AD%A6%E6%A0%A1%E5%9B%AD%E7%BD%91%E7%BE%8E%E5%8C%96/code)
+1. 打开本脚本的Greasyfork页面：[云南大学校园网美化](https://greasyfork.org/zh-CN/scripts/476284-%E4%BA%91%E5%8D%97%E5%A4%A7%E5%AD%A6%E6%A0%A1%E5%9B%AD%E7%BD%91%E7%BE%8E%E5%8C%96)
 2. 点击`安装此脚本`
 
 ### Changelog
