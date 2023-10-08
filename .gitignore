@@ -1,0 +1,6 @@
+
+.idea/
+__pycache__
+Python/SendIPByEmail.py
+Python/SubtitleTranslator/myconfig.yaml
+Shell/定时备份MySQL.bat

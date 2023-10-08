@@ -1,0 +1,25 @@
+# 这是个模板文件，不要直接在这里修改信息。
+# 复制一份并改为"myconfig.yaml"，然后再修改。
+proxies: # 代理配置，国内用户应该很熟悉
+  http: http://127.0.0.1:7890
+  https: http://127.0.0.1:7890
+
+headers: # 请求头，翻译类型为解析网页时会用到
+  User-Agent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.149 Safari/537.36"
+
+language: # 默认语言配置，在未指定的情况下使用
+  src: auto # 自动检测，交给翻译器自行判断
+  dst: zh-CN # 默认为简体中文
+
+API: # 各类API的相关参数(目前还没适配，所以是空的)
+  Google:
+  Baidu:
+
+encoding: utf-8 # 保存文件时的默认编码
+
+asyncNums: # 异步请求的最大数量，一般建议解析Web的不要过大
+  Google_Web: 4
+  Google_API: 16
+  Baidu_Web: 4
+  Baidu_API: 16
+
