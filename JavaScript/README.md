@@ -19,8 +19,6 @@
 
 ### 效果
 
-#### 桌面端
-
 |设备|Before|After|
 |:-:|:-:|:-:|
 |电脑|![before](./README_IMG/YNU-selfsrv-enhance_Desktop_origin.jpeg)|![after](./README_IMG/YNU-selfsrv-enhance_Desktop_genshin_theme.jpeg)|
