@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         云南大学校园网美化
 // @namespace    http://tampermonkey.net/
-// @version      1.1
+// @version      1.1.1
 // @description  云南大学自助服务平台(校园网)美化脚本
 // @author       Steven-Zhl
 // @match        https://selfsrv.ynu.edu.cn/*
@@ -63,6 +63,7 @@ function queryImage(titleInfo, local_variableName) {
                 catch (e) { alert('图片文件过大，无法加载'); dialog.close(); }
             };
             reader.readAsDataURL(local_input.files[0]);
+            window.location.reload();
         } else if (select.value === 'online') { localStorage.setItem(local_variableName, online_input.value); }
 
     });
