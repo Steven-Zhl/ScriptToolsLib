@@ -2,19 +2,37 @@
 ## 预定义部分
 IFS=' '                                                                     #默认分隔符
 paragraphLine='-----------------------------------------------------------' #分隔线
-testNetwork() {                                                             # 测试网络是否可用
+
+checkNetwork() { # 测试网络是否可用，大体上只测试这两个就足够代表了
     tuna_link="mirrors.tuna.tsinghua.edu.cn"
     us_ubuntu_link="us.archive.ubuntu.com"
-    ping -c 1 -W 1 $tuna_link >/dev/null 2>&1 || return 1
-    ping -c 1 -W 1 $us_ubuntu_link >/dev/null 2>&1 || return 1
-    return 0
+    echo "1. 检查网络..."
+    # 使用ping命令检测目标主机，等待1秒，最多尝试3次
+    ping -c 3 -W 1 "$tuna_link" >/dev/null 2>&1
+    if [ $? -eq 0 ]; then
+        echo "  Tuna镜像源可用"
+    else
+        echo "  Tuna镜像源不可用，请检查网络设置"
+        exit -1
+    fi
+    ping -c 3 -W 1 "$us_ubuntu_link" >/dev/null 2>&1
+    if [ $? -eq 0 ]; then
+        echo "  Ubuntu原始源可用"
+    else
+        echo "  Ubuntu原始源不可用"
+    fi
 }
-testPrivilege() { # 测试是否有root权限
-    return $([ $EUID -ne 0 ] && echo 1 || echo 0)
+
+checkPrivilege() { # 不使用root权限运行此脚本，仅在需要root权限时使用
+    echo "0. 检查权限..."
+    if [ $EUID -eq 0 ]; then
+        echo "  Error  : 请不要使用root权限运行此脚本"
+        exit -1
+    fi
 }
 installCascadiaCode() { # 安装CascadiaCode字体
-    wget https://github.com/microsoft/cascadia-code/releases/download/v2111.01/CascadiaCode-2111.01.zip -P ~/下载/ >/dev/null
-    cd ~/下载
+    wget https://github.com/microsoft/cascadia-code/releases/download/v2111.01/CascadiaCode-2111.01.zip -P $(xdg-user-dir DOWNLOAD) >/dev/null
+    cd $(xdg-user-dir DOWNLOAD)
     unzip ./CascadirCode-2111.01.zip
     rm ./CascadirCode-2111.01.zip && rm -rf ./otf/ && rm -rf ./woff2 # 删除无用的文件
     cd ./ttf
@@ -28,8 +46,8 @@ installCascadiaCode() { # 安装CascadiaCode字体
     rm -rf ./ttf
 }
 installCaskaydiaCoveNerdFont() {
-    wget https://github.com/ryanoasis/nerd-fonts/releases/download/v3.0.2/CascadiaCode.zip -P ~/下载/ >/dev/null
-    cd ~/下载
+    wget https://github.com/ryanoasis/nerd-fonts/releases/download/v3.0.2/CascadiaCode.zip -P $(xdg-user-dir DOWNLOAD) >/dev/null
+    cd $(xdg-user-dir DOWNLOAD)
     unzip ./CascadiaCode.zip
     rm ./CascadiaCode.zip && rm ./LICENSE && rm ./readme.md && rm ./fonts.dir && rm ./fonts.scale # 删除无用的文件
     if [ ! -d "/usr/share/fonts/custom" ]; then
@@ -58,31 +76,14 @@ installGithubDesktop() {
     sudo apt update >/dev/null
     sudo apt install github-desktop >/dev/null
 }
+
 ## 0. 检查权限和网络
 echo '>-0. Checking----------------------------------------------'
 test_res=0
 
-testPrivilege
-temp=$?
-test_res=$(($test_res + $temp))
-if [ $temp -eq 0 ]; then
-    echo "  已获取root权限"
-else
-    echo "  Exit: 请使用root权限运行此脚本"
-    echo $paragraphLine
-    exit 1
-fi
+checkPrivilege
+checkNetwork
 
-testNetwork
-temp=$?
-test_res=$(($test_res + $temp))
-if [ $temp -eq 0 ]; then
-    echo "  网络环境正常"
-else
-    echo "  Exit: 网络不可用，请检查网络连接"
-    echo $paragraphLine
-    exit 1
-fi
 if [ $test_res -eq 0 ]; then
     echo "  预检查通过，开始正式安装"
 else
@@ -93,10 +94,7 @@ fi
 
 ## 1. 配置apt
 echo '>-1. Apt config--------------------------------------------'
-
-echo '  1.1 更新软件源....'
-sudo apt update >/dev/null # 更新软件源
-echo "  1.2 配置软件源：请选择要添加的软件源(可多选):
+echo "  1.1 配置软件源：请选择要添加的软件源(可多选):
     1 [国外]Ubuntu美国镜像
     2 [国内]清华Tuna镜像
     3 [国内]阿里云镜像
@@ -146,26 +144,32 @@ else
     done
     echo "  添加完成"
 fi
-echo '  1.3 更新软件源....'
+echo '  1.2 更新软件源...'
 sudo apt update >/dev/null # 更新软件源
-echo '  1.4 更新可更新的软件，新系统该过程可能持续时间较长....'
-sudo apt upgrade >/dev/null # 自动更新可更新的软件
-echo '  1.5 清理无用的软件包....'
-sudo apt autoremove # 自动清理无用的软件包
+echo '  1.3 更新可更新的软件，新系统该过程可能持续时间较长...'
+sudo apt upgrade # 自动更新可更新的软件
+echo '  1.4 清理无用的软件包...'
+sudo apt autoremove >/dev/null && sudo apt autoclean >/dev/null # 自动清理无用的软件包
 
 ## 2. 安装一些基本软件
 echo '>-2. Install some basic softwares--------------------------------------------'
-
 echo '  2.1 安装Vim'
 sudo apt install vim >/dev/null
 echo '  2.2 安装Git'
 sudo apt install git >/dev/null
 echo '  2.3 安装Wget和Curl'
 sudo apt install wget >/dev/null && sudo apt install curl >/dev/null
+echo '  2.4 安装SSH服务端和客户端'
+sudo apt install openssh-server openssh-client >/dev/null
+echo '  2.5 安装Net-tools'
+sudo apt install net-tools >/dev/null
+echo '  2.6 安装Gnome Tweaks'
+sudo apt install gnome-tweaks >/dev/null
+echo '  2.7 安装xdg-user-dirs'
+sudo apt install xdg-user-dirs >/dev/null
 
 ## 3. 下载并安装字体
 echo '>-3. Download fonts----------------------------------------------------------'
-
 echo '  3.1 安装Cascadia Code'
 installCascadiaCode
 echo '  3.2 安装Caskaydia Cove Nerd Font'
@@ -188,7 +192,6 @@ zsh # 配置oh-my-zsh powerlevel10k
 
 ## 5. 安装部分微软软件
 echo '>-5. Install some Microsoft softwares-----------------------------------------'
-
 echo '  5.1 安装Visual Studio Code'
 installVSCode
 echo '  5.2 安装Microsoft Edge'
@@ -205,7 +208,7 @@ mkdir Python && mkdir Jekyll && mkdir Database
 ## 安装其他软件
 sudo apt install aria2 # Aria2，下载工具
 sudo apt install unrar
-sudo apt install vlc # Linux上最好的视频播放器
+sudo apt install vlc    # Linux上最好的视频播放器
 sudo apt install vsftpd # FTP服务器工具
 systemctl start vsftpd.service
 sudo apt install mysql-server
