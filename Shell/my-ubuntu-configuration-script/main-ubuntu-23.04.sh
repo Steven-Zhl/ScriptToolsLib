@@ -168,12 +168,19 @@ sudo apt install gnome-tweaks >/dev/null
 echo '  2.7 安装xdg-user-dirs'
 sudo apt install xdg-user-dirs >/dev/null
 
-## 3. 下载并安装字体
-echo '>-3. Download fonts----------------------------------------------------------'
+## 3. 个性化
+echo '>-3. Customize---------------------------------------------------------------'
 echo '  3.1 安装Cascadia Code'
 installCascadiaCode
 echo '  3.2 安装Caskaydia Cove Nerd Font'
 installCaskaydiaCoveNerdFont
+echo '  3.3 下载壁纸和头像'
+sudo wget https://pic.imgdb.cn/item/653a1e48c458853aef61288a.jpg -P $(xdg-user-dir PICTURES) -O background1.jpg
+sudo wget https://pic.imgdb.cn/item/653a1e48c458853aef6128be.jpg -P $(xdg-user-dir PICTURES) -O background2.jpg
+sudo wget https://pic.imgdb.cn/item/653a1e48c458853aef61290a.jpg -P $(xdg-user-dir PICTURES) -O background3.jpg
+sudo wget https://pic.imgdb.cn/item/653a1e1dc458853aef60ad0f.jpg -P $(xdg-user-dir PICTURES) -O avatar.jpg
+sudo wget --header="Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8" --header="Accept-Encoding: gzip, deflate, br" --header="Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2" --header="Cache-Control: no-cache" --header="Connection: keep-alive" --header="Host: i.pximg.net" --header="Pragma: no-cache" --header="Referer: https://www.pixiv.net/" --header="Sec-Fetch-Dest: document" --header="Sec-Fetch-Mode: navigate" --header="Sec-Fetch-Site: cross-site" --header="Sec-Fetch-User: ?1" --header="TE: trailers" --header="Upgrade-Insecure-Requests: 1" --header="User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/111.0" -P /home/steven/图片/ https://i.pximg.net/img-original/img/2019/12/12/22/03/54/78262885_p0.jpg # 我最喜欢的头像
+sudo wget --header="Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8" --header="Accept-Encoding: gzip, deflate, br" --header="Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2" --header="Cache-Control: no-cache" --header="Connection: keep-alive" --header="Host: i.pximg.net" --header="Pragma: no-cache" --header="Referer: https://www.pixiv.net/" --header="Sec-Fetch-Dest: document" --header="Sec-Fetch-Mode: navigate" --header="Sec-Fetch-Site: cross-site" --header="Sec-Fetch-User: ?1" --header="TE: trailers" --header="Upgrade-Insecure-Requests: 1" --header="User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/111.0" -P /home/steven/图片/ https://i.pximg.net/img-original/img/2020/09/13/18/40/12/84349056_p3.jpg # 某个很棒的深色壁纸
 
 ## 4. 安装配置Zsh
 echo '>-4. Zsh config--------------------------------------------------------------'
@@ -228,9 +235,7 @@ sudo apt install baobab # 磁盘分析工具
 curl -fsSL "https://alist.nn.ci/v3.sh" | bash -s install
 snap install datagrip --classic             # 安装datagrip
 snap install pycharm-professional --classic # 安装pycharm
-##  一些静态资源
-wget --header="Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8" --header="Accept-Encoding: gzip, deflate, br" --header="Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2" --header="Cache-Control: no-cache" --header="Connection: keep-alive" --header="Host: i.pximg.net" --header="Pragma: no-cache" --header="Referer: https://www.pixiv.net/" --header="Sec-Fetch-Dest: document" --header="Sec-Fetch-Mode: navigate" --header="Sec-Fetch-Site: cross-site" --header="Sec-Fetch-User: ?1" --header="TE: trailers" --header="Upgrade-Insecure-Requests: 1" --header="User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/111.0" -P /home/steven/图片/ https://i.pximg.net/img-original/img/2019/12/12/22/03/54/78262885_p0.jpg # 我最喜欢的头像
-wget --header="Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8" --header="Accept-Encoding: gzip, deflate, br" --header="Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2" --header="Cache-Control: no-cache" --header="Connection: keep-alive" --header="Host: i.pximg.net" --header="Pragma: no-cache" --header="Referer: https://www.pixiv.net/" --header="Sec-Fetch-Dest: document" --header="Sec-Fetch-Mode: navigate" --header="Sec-Fetch-Site: cross-site" --header="Sec-Fetch-User: ?1" --header="TE: trailers" --header="Upgrade-Insecure-Requests: 1" --header="User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/111.0" -P /home/steven/图片/ https://i.pximg.net/img-original/img/2020/09/13/18/40/12/84349056_p3.jpg # 某个很棒的深色壁纸
+
 ## References
 function showReferences() {
     declare -A refList
