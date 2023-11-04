@@ -227,6 +227,7 @@ sudo apt install jekyll >/dev/null
 sudo gem install jekyll-paginate >/dev/null
 wget https://dldir1.qq.com/qqfile/qq/QQNT/b69de82d/linuxqq_3.2.1-17153_amd64.deb -P ./下载/
 # aria2配置参考这篇文章: https://jasonkayzk.github.io/2020/05/01/Aria2%E5%AE%89%E8%A3%85%E4%B8%8E%E9%85%8D%E7%BD%AE/
+# 或者这个：https://www.jianshu.com/p/0b46ac8ca80c
 # 以及这个：https://owenyk.github.io/2021/06/22/systemctl%E7%AE%A1%E7%90%86%E6%96%B9%E5%BC%8F%E4%B8%8B%E8%AE%BE%E7%BD%AEaria2%E5%BC%80%E6%9C%BA%E5%90%AF%E5%8A%A8/
 sudo apt install baobab # 磁盘分析工具
 # aria2的tracker参考这个：
