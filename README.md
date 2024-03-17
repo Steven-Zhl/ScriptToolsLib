@@ -6,6 +6,5 @@
 
 ## 目录
 
-* [JavaScript浏览器脚本](./JavaScript)
 * [Python半自动化脚本](./Python)
 * [系统脚本](./Shell)
