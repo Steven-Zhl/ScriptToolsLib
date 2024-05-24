@@ -7,4 +7,5 @@
 ## 目录
 
 * [Python半自动化脚本](./Python)
-* [系统脚本](./Shell)
+* [Shell脚本](./Shell)
+* [MySQL脚本](./MySQL)
