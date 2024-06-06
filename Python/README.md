@@ -5,12 +5,38 @@
 * [Python脚本](#python脚本)
   * [目录](#目录)
   * [AutoRename.py](#autorenamepy)
+    * [功能](#功能)
+    * [环境要求](#环境要求)
+    * [用法](#用法)
+    * [ChangeLog](#changelog)
   * [Bilibili\_Batch](#bilibili_batch)
+    * [环境要求](#环境要求-1)
+    * [用法](#用法-1)
+    * [ChangeLog](#changelog-1)
   * [FxxkChromiumSecurity.py](#fxxkchromiumsecuritypy)
+    * [环境要求](#环境要求-2)
+    * [用法](#用法-2)
+    * [ChangeLog](#changelog-2)
   * [M3U8\_Decrypt.py](#m3u8_decryptpy)
+    * [环境要求](#环境要求-3)
+    * [用法](#用法-3)
+    * [ChangeLog](#changelog-3)
   * [SubtitleTranslator](#subtitletranslator)
+    * [环境要求](#环境要求-4)
+    * [用法](#用法-4)
+    * [ChangeLog](#changelog-4)
+  * [SortPsHistory.py](#sortpshistorypy)
+    * [环境要求](#环境要求-5)
+    * [用法](#用法-5)
+    * [ChangeLog](#changelog-5)
   * [YNU\_大学生创新创业MOOC搜题](#ynu_大学生创新创业mooc搜题)
+    * [环境要求](#环境要求-6)
+    * [用法](#用法-6)
+    * [ChangeLog](#changelog-6)
   * [YNU\_TimetableConvert](#ynu_timetableconvert)
+    * [环境要求](#环境要求-7)
+    * [用法](#用法-7)
+    * [ChangeLog](#changelog-7)
 
 ## [AutoRename.py](./AutoRename.py)
 
@@ -134,6 +160,24 @@
 
 * 2023-07-19
   * 初步代码编写(谷歌翻译网页版)
+
+## [SortPsHistory.py](./SortPsHistory.py)
+
+> 整理PowerShell的历史命令记录的脚本，主要功能为去重、排序，以及删去包含屏蔽词的命令
+
+### 环境要求
+
+* Python 3
+* PowerShell
+
+### 用法
+
+* 在Python环境中运行即可
+
+### ChangeLog
+
+* 2024-06-06
+  * 完成初版编写
 
 ## [YNU_大学生创新创业MOOC搜题](./YNU_大学生创新创业MOOC搜题/)
 
