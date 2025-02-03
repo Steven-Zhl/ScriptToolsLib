@@ -25,7 +25,7 @@
     * [环境要求](#环境要求-4)
     * [用法](#用法-4)
     * [ChangeLog](#changelog-4)
-  * [SortPsHistory.py](#sortpshistorypy)
+  * [SortShellHistory.py](#sortshellhistorypy)
     * [环境要求](#环境要求-5)
     * [用法](#用法-5)
     * [ChangeLog](#changelog-5)
@@ -161,23 +161,25 @@
 * 2023-07-19
   * 初步代码编写(谷歌翻译网页版)
 
-## [SortPsHistory.py](./SortPsHistory.py)
+## [SortShellHistory.py](./SortShellHistory.py)
 
-> 整理PowerShell的历史命令记录的脚本，主要功能为去重、排序，以及删去包含屏蔽词的命令
+> 整理`PowerShell`/`Bash`/`Zsh`的历史命令记录的脚本，主要功能为去重、排序，以及删去包含屏蔽词的命令
 
 ### 环境要求
 
 * Python 3
-* PowerShell
+* PowerShell / Bash / Zsh
 
 ### 用法
 
-* 在Python环境中运行即可
+* 在Shell中调用Python执行即可，可通过`-h`或`--help`查看帮助
 
 ### ChangeLog
 
 * 2024-06-06
   * 完成初版编写
+* 2025-02-03
+  * 支持Bash和Zsh，改用命令行参数的方式执行
 
 ## [YNU_大学生创新创业MOOC搜题](./YNU_大学生创新创业MOOC搜题/)
 
